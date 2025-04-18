@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login','AuthController@auth');
 Route::post('/create-users','UsersController@store');
+Route::get('/get-users/{id}','UsersController@getUsers');

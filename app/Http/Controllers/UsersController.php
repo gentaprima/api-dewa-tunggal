@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ModelUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -20,6 +21,14 @@ class UsersController extends Controller
         return response()->json([
             'status' => true,
             'message' => "Users berhasil ditambahkan",
+        ]);
+    }
+
+    public function getUsers($id){
+        $data = DB::table('tbl_users')->where('id','=',$id)->first();
+        return response()->json([
+            'status' => true,
+            'data' => $data
         ]);
     }
 }
