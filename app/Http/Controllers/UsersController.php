@@ -14,6 +14,14 @@ class UsersController extends Controller
 {
     public function store(Request $request)
     {
+        $cekUsers = DB::table('tbl_users')->where('email','=',$request->email)->first();
+        if($cekUsers != null){
+            return response()->json([
+                'status' => false,
+                'message' => "Email sudah digunakan, silahkan gunakan email lain.",
+            ]); 
+        }
+
         $user = ModelUsers::create([
             'email'     => $request->email,
             'nama_lengkap'  => $request->fullName,
