@@ -24,7 +24,7 @@ class UsersController extends Controller
             'is_active' => 0
         ]);
 
-        $verificationUrl = url('/verify-email/' . $user->email_verification_token);
+        $verificationUrl = url('/api/verify-email/' . $user->email_verification_token);
         Mail::to($user->email)->send(new VerifyEmail($user, $verificationUrl));
 
         return response()->json([
@@ -40,5 +40,18 @@ class UsersController extends Controller
             'status' => true,
             'data' => $data
         ]);
+    }
+
+    public function verifyEmail($token){
+        $users = DB::table('tbl_users')->where('email_verification_token','=',$token)->first();
+        if ($users) {
+            DB::table('tbl_users')
+                ->where('email_verification_token', '=', $token)
+                ->update([
+                    'is_active' => 1,
+                ]);
+        }
+
+        return redirect()->away('https://dewatunggalabadi.co.id/');
     }
 }
