@@ -20,7 +20,6 @@ class TblUsers extends Migration
             $table->string('password');
             $table->string('nomor_telepon')->nullable();
             $table->integer('role');
-            $table->string('email_verification_token');
         });
     }
 

@@ -10,5 +10,5 @@ Verifikasi Sekarang
 @endcomponent
 
 Terima kasih,<br>
-{{ config('app.name') }}
+PT. Dewa Tunggal Abadi
 @endcomponent

@@ -19,15 +19,17 @@ class UsersController extends Controller
             'nama_lengkap'  => $request->fullName,
             'nomor_telepon'        => $request->phoneNumber,
             'password'      => Hash::make($request->password),
-            'role'  => 0
+            'role'  => 0,
+            'email_verification_token' => Str::random(64),
+            'is_active' => 0
         ]);
 
-        $verificationUrl = url('/verify-email/' . Str::random(64));
+        $verificationUrl = url('/verify-email/' . $user->email_verification_token);
         Mail::to($user->email)->send(new VerifyEmail($user, $verificationUrl));
 
         return response()->json([
             'status' => true,
-            'message' => "Users berhasil ditambahkan",
+            'message' => "Pendaftaran akun berhasil, silahkan konfirmasi email untuk bisa login.",
         ]);
     }
 
