@@ -27,6 +27,13 @@ class AuthController extends Controller
             ]);
         }
 
+        if($getData->is_active == 0){
+            return response()->json([
+                'status' => false,
+                'message' => "Mohon maaf, akun tersebut belum aktif.",
+            ]);
+        }
+
         return response()->json([
             'status' => true,
             'message' => "successfully login.",
