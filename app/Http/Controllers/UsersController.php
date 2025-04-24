@@ -62,4 +62,12 @@ class UsersController extends Controller
 
         return redirect()->away('https://dewatunggalabadi.co.id/');
     }
+
+    public function getDataUsers(){
+        $data = DB::table('tbl_users')->where('role','=',0)->get();
+        return response()->json([
+            'status' => true,
+            'data' => $data
+        ]);
+    }
 }
