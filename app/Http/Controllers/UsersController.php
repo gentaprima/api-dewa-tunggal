@@ -14,12 +14,12 @@ class UsersController extends Controller
 {
     public function store(Request $request)
     {
-        $cekUsers = DB::table('tbl_users')->where('email','=',$request->email)->first();
-        if($cekUsers != null){
+        $cekUsers = DB::table('tbl_users')->where('email', '=', $request->email)->first();
+        if ($cekUsers != null) {
             return response()->json([
                 'status' => false,
                 'message' => "Email sudah digunakan, silahkan gunakan email lain.",
-            ]); 
+            ]);
         }
 
         $user = ModelUsers::create([
@@ -50,8 +50,9 @@ class UsersController extends Controller
         ]);
     }
 
-    public function verifyEmail($token){
-        $users = DB::table('tbl_users')->where('email_verification_token','=',$token)->first();
+    public function verifyEmail($token)
+    {
+        $users = DB::table('tbl_users')->where('email_verification_token', '=', $token)->first();
         if ($users) {
             DB::table('tbl_users')
                 ->where('email_verification_token', '=', $token)
@@ -63,8 +64,13 @@ class UsersController extends Controller
         return redirect()->away('https://dewatunggalabadi.co.id/');
     }
 
-    public function getDataUsers(){
-        $data = DB::table('tbl_users')->where('role','=',0)->get();
+    public function getDataUsers(Request $request)
+    {
+        $data = DB::table('tbl_users')
+            ->when(request('search'), function ($query) {
+                $query->where('tbl_users.nama_lengkap', 'like', '%' . request('search') . '%');
+            })
+            ->where('role', '=', 0)->get();
         return response()->json([
             'status' => true,
             'data' => $data
